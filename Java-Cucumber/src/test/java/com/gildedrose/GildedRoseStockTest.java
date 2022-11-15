@@ -2,6 +2,7 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
+import static com.gildedrose.GildedRose.SULFURAS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseStockTest {
@@ -26,15 +27,27 @@ class GildedRoseStockTest {
         Item[] items = app.items;
         items[0].name = "bad apple";
         // Unfortunately, we cannot prevent this manipulation
-        assertEquals("bad apple", app.items[0].name);;
+        assertEquals("bad apple", app.items[0].name);
         app.updateQuality();
         // But the change is only "temporary"...
-        assertEquals("apple", app.items[0].name);;
+        assertEquals("apple", app.items[0].name);
         app.items[0].name = "bad apple";
         app.addItem(new Item("pear", 5, 5));
-        assertEquals("apple", app.items[0].name);;
+        assertEquals("apple", app.items[0].name);
         app.items[0].name = "bad apple";
         app.removeItem(1);
     }
+
+    @Test
+    void sulfurasQualityShouldAlwaysBe80() {
+        GildedRose app = new GildedRose(new Item[] { new Item(SULFURAS, 10, 80)});
+        assertEquals(80, app.items[0].quality);
+        app.updateQuality();
+        assertEquals(80, app.items[0].quality);
+        app.updateQuality();
+        assertEquals(80, app.items[0].quality);
+    }
+
+    // TODO: if we could alter Item class, we could check Sulfuras quality == 80...
 
 }

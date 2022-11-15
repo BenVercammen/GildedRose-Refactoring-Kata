@@ -5,9 +5,9 @@ Feature: Gilded Rose quality for Sulfuras
   Scenario: Sulfuras never drops in quality or sell in date
     Given the following items are in stock
       | Name                       | Quality | Sell in |
-      | Sulfuras, Hand of Ragnaros | 50      | 0       |
+      | Sulfuras, Hand of Ragnaros | 80      | 0       |
     When I update the quality
     Then the stock should contain the following items
       | Name                       | Quality | Sell in |
-      | Sulfuras, Hand of Ragnaros | 50      | 0       |
+      | Sulfuras, Hand of Ragnaros | 80      | 0       |
 

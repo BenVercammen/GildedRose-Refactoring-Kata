@@ -141,12 +141,12 @@ class GildedRose {
                 break;
             case BACKSTAGE_PASSES:
                 item.quality += 1;
-                if (item.sellIn <= 11) {
+                if (item.sellIn < 11) {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1;
                     }
                 }
-                if (item.sellIn <= 6) {
+                if (item.sellIn < 6) {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1;
                     }
@@ -156,7 +156,8 @@ class GildedRose {
                 }
                 break;
             case SULFURAS:
-                break;
+                item.quality = 80;
+                return;
             default:
                 item.quality -= 1;
                 if (item.sellIn <= 0) {
