@@ -60,55 +60,115 @@ class GildedRose {
      */
     public void updateQuality() {
         for (Item item : stock) {
-            if (!item.name.equals(AGED_BRIE)
-                    && !item.name.equals(BACKSTAGE_PASSES)) {
-                if (item.quality > 0) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
-                    }
-                }
-            } else {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+            updateItemQuality(item);
+            updateItemSellInDate(item);
+        }
+        copyItems();
+    }
 
-                    if (item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-                    }
+    /**
+     * Original method, just keeping here for reference for now...
+     * @param item
+     * @deprecated
+     */
+    private void _updateQuality(Item item) {
+        if (!item.name.equals(AGED_BRIE)
+                && !item.name.equals(BACKSTAGE_PASSES)) {
+            if (item.quality > 0) {
+                if (!item.name.equals(SULFURAS)) {
+                    item.quality = item.quality - 1;
                 }
             }
+        } else {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
 
-            if (!item.name.equals(SULFURAS)) {
-                item.sellIn = item.sellIn - 1;
-            }
-
-            if (item.sellIn < 0) {
-                if (!item.name.equals(AGED_BRIE)) {
-                    if (!item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.quality > 0) {
-                            if (!item.name.equals(SULFURAS)) {
-                                item.quality = item.quality - 1;
-                            }
+                if (item.name.equals(BACKSTAGE_PASSES)) {
+                    if (item.sellIn < 11) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
                         }
-                    } else {
-                        item.quality = item.quality - item.quality;
                     }
-                } else {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+
+                    if (item.sellIn < 6) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
+                        }
                     }
                 }
             }
         }
-        copyItems();
+
+        if (!item.name.equals(SULFURAS)) {
+            item.sellIn = item.sellIn - 1;
+        }
+
+        if (item.sellIn < 0) {
+            if (!item.name.equals(AGED_BRIE)) {
+                if (!item.name.equals(BACKSTAGE_PASSES)) {
+                    if (item.quality > 0) {
+                        if (!item.name.equals(SULFURAS)) {
+                            item.quality = item.quality - 1;
+                        }
+                    }
+                } else {
+                    item.quality = item.quality - item.quality;
+                }
+            } else {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
+                }
+            }
+        }
     }
+
+    private void updateItemSellInDate(Item item) {
+        switch (item.name) {
+            case SULFURAS:
+                break;
+            default:
+                item.sellIn -= 1;
+        }
+    }
+
+    private void updateItemQuality(Item item) {
+        switch (item.name) {
+            case AGED_BRIE:
+                item.quality += 1;
+                if (item.sellIn <= 0) {
+                    item.quality += 1;
+                }
+                break;
+            case BACKSTAGE_PASSES:
+                item.quality += 1;
+                if (item.sellIn <= 11) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
+                    }
+                }
+                if (item.sellIn <= 6) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
+                    }
+                }
+                if (item.sellIn <= 0) {
+                    item.quality = 0;
+                }
+                break;
+            case SULFURAS:
+                break;
+            default:
+                item.quality -= 1;
+                if (item.sellIn <= 0) {
+                    item.quality -= 1;
+                }
+        }
+        if (item.quality < 0) {
+            item.quality = 0;
+        }
+        if (item.quality > 50) {
+            item.quality = 50;
+        }
+    }
+
 }
