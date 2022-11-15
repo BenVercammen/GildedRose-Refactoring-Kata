@@ -6,6 +6,7 @@ class GildedRose {
     public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
+    public static final String CONJURED = "Conjured";
 
     /**
      * Public array of items kept in place for the goblin in the corner.
@@ -159,9 +160,10 @@ class GildedRose {
                 item.quality = 80;
                 return;
             default:
-                item.quality -= 1;
+                int decay = item.name.equals(CONJURED) ? 2 : 1;
+                item.quality -= decay;
                 if (item.sellIn <= 0) {
-                    item.quality -= 1;
+                    item.quality -= decay;
                 }
         }
         if (item.quality < 0) {

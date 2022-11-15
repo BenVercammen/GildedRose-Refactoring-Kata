@@ -17,11 +17,15 @@ Feature: Gilded Rose quality
   Scenario: Once the sell by date has passed, Quality degrades twice as fast
     Given the following items are in stock
       | Name | Quality | Sell in |
-      | Foo  | 10      | 0       |
+      | Foo  | 10      | 1       |
     When I update the quality
     Then the stock should contain the following items
       | Name | Quality | Sell in |
-      | Foo  | 8       | -1      |
+      | Foo  | 9       | 0      |
+    When I update the quality
+    Then the stock should contain the following items
+      | Name | Quality | Sell in |
+      | Foo  | 7       | -1      |
 
 
   # The Quality of an item is never negative
